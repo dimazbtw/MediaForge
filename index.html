@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaForge - Conversor Universal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-pattern">
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="container">
+        <!-- Language Selector -->
+        <div class="lang-selector">
+            <span class="lang-label">Idioma</span>
+            <div class="lang-buttons">
+                <button class="lang-btn active" data-lang="pt-PT" title="Português">🇵🇹 PT</button>
+                <button class="lang-btn" data-lang="en" title="English">🇬🇧 EN</button>
+            </div>
+        </div>
+
+        <header>
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <h1>MediaForge</h1>
+            </div>
+            <p class="subtitle">Conversor Universal de Mídia</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📁</div>
+                    <h2 class="card-title">Ficheiro de Entrada</h2>
+                </div>
+
+                <div class="drop-zone" id="dropZone">
+                    <span class="drop-zone-icon">📤</span>
+                    <p class="drop-zone-text">Arrasta e larga o teu ficheiro aqui</p>
+                    <p class="drop-zone-hint">ou clica para selecionar</p>
+                    <input type="file" id="fileInput" accept="image/*,video/*,audio/*,.gif,.webp,.svg">
+                </div>
+
+                <div class="file-info" id="fileInfo">
+                    <div class="file-details">
+                        <div class="file-detail">
+                            <span class="file-detail-label">Nome</span>
+                            <span class="file-detail-value" id="fileName">-</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="file-detail-label">Tipo</span>
+                            <span class="file-detail-value" id="fileType">-</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="file-detail-label">Tamanho</span>
+                            <span class="file-detail-value" id="fileSize">-</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="file-detail-label">Dimensões</span>
+                            <span class="file-detail-value" id="fileDimensions">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-container" id="previewContainer"></div>
+
+                <div class="conversion-section" id="conversionSection">
+                    <p class="section-title">Converter para</p>
+                    <div class="format-grid" id="formatGrid"></div>
+                </div>
+
+                <div class="quality-section" id="qualitySection" style="display: none;">
+                    <div class="quality-header">
+                        <span class="section-title">Qualidade</span>
+                        <span class="quality-value" id="qualityValue">80%</span>
+                    </div>
+                    <input type="range" class="quality-slider" id="qualitySlider" min="10" max="100" value="80">
+                </div>
+
+                <div class="resize-section" id="resizeSection">
+                    <p class="section-title">Redimensionar (opcional)</p>
+                    <div class="resize-inputs">
+                        <div class="resize-input-group">
+                            <label>Largura (px)</label>
+                            <input type="number" id="resizeWidth" placeholder="Auto">
+                        </div>
+                        <div class="resize-lock locked" id="resizeLock" title="Manter proporção">
+                            🔗
+                        </div>
+                        <div class="resize-input-group">
+                            <label>Altura (px)</label>
+                            <input type="number" id="resizeHeight" placeholder="Auto">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="convert-btn" id="convertBtn" disabled>
+                    ⚡ Converter Agora
+                </button>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">A processar...</p>
+                </div>
+            </div>
+
+            <!-- Output Card -->
+            <div class="card output-card">
+                <div class="card-header">
+                    <div class="card-icon">✨</div>
+                    <h2 class="card-title">Resultado</h2>
+                </div>
+
+                <div class="output-empty" id="outputEmpty">
+                    <span class="output-empty-icon">🎯</span>
+                    <p>O teu ficheiro convertido aparecerá aqui</p>
+                </div>
+
+                <div class="output-preview" id="outputPreview">
+                    <div class="output-media" id="outputMedia"></div>
+                    <div class="output-info">
+                        <div class="file-detail">
+                            <span class="file-detail-label">Formato</span>
+                            <span class="file-detail-value" id="outputFormat">-</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="file-detail-label">Tamanho</span>
+                            <span class="file-detail-value" id="outputSize">-</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="file-detail-label">Dimensões</span>
+                            <span class="file-detail-value" id="outputDimensions">-</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="file-detail-label">Redução</span>
+                            <span class="file-detail-value" id="outputReduction">-</span>
+                        </div>
+                    </div>
+                    <button class="download-btn" id="downloadBtn">
+                        📥 Transferir Ficheiro
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-header">
+                <h2 class="history-title">📜 Histórico</h2>
+                <button class="clear-history-btn" id="clearHistoryBtn">Limpar Histórico</button>
+            </div>
+            <div class="history-grid" id="historyGrid">
+                <div class="history-empty" id="historyEmpty">
+                    <p>Nenhuma conversão realizada ainda</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supported Formats -->
+        <div class="formats-info">
+            <h2 class="card-title">📋 Formatos Suportados</h2>
+            <div class="formats-grid">
+                <div class="format-category">
+                    <p class="format-category-title">🖼️ Imagens</p>
+                    <div class="format-list">
+                        <span class="format-tag">PNG</span>
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">JPEG</span>
+                        <span class="format-tag">WEBP</span>
+                        <span class="format-tag">GIF</span>
+                        <span class="format-tag">BMP</span>
+                        <span class="format-tag">ICO</span>
+                        <span class="format-tag">SVG</span>
+                    </div>
+                </div>
+                <div class="format-category">
+                    <p class="format-category-title">🎬 Vídeos</p>
+                    <div class="format-list">
+                        <span class="format-tag">MP4</span>
+                        <span class="format-tag">WEBM</span>
+                        <span class="format-tag">GIF</span>
+                    </div>
+                </div>
+                <div class="format-category">
+                    <p class="format-category-title">🎵 Áudio</p>
+                    <div class="format-list">
+                        <span class="format-tag">MP3</span>
+                        <span class="format-tag">WAV</span>
+                        <span class="format-tag">OGG</span>
+                        <span class="format-tag">WEBM</span>
+                        <span class="format-tag">M4A</span>
+                    </div>
+                </div>
+                <div class="format-category">
+                    <p class="format-category-title">🔄 Especiais</p>
+                    <div class="format-list">
+                        <span class="format-tag">GIF → MP4</span>
+                        <span class="format-tag">Vídeo → GIF</span>
+                        <span class="format-tag">Vídeo → Áudio</span>
+                        <span class="format-tag">Redimensionar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
