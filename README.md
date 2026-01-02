@@ -84,7 +84,7 @@
 
 ```bash
 # Clonar o repositório
-git clone https://github.com/seu-usuario/mediaforge.git
+git clone https://github.com/dimazbtw/mediaforge.git
 
 # Entrar na pasta
 cd mediaforge
