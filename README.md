@@ -2,8 +2,6 @@
 
 Um conversor e editor de imagens/vídeos moderno com backend Node.js e frontend React + Tailwind.
 
-![MediaForge](https://via.placeholder.com/800x400/0a0a0f/00d4ff?text=MediaForge)
-
 ## ✨ Funcionalidades
 
 ### Vídeo
