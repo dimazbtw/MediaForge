@@ -9,6 +9,31 @@ React + Vite + Tailwind v4   ←→   Node/Express + ffmpeg + yt-dlp
 
 ---
 
+## Em ação
+
+### Conversão de ficheiros
+
+Larga o ficheiro, escolhe o destino e afina as opções — cada ficheiro tem as suas, conforme o
+formato de saída. Progresso real e pré-visualização antes/depois.
+
+![Conversão de ficheiros no MediaForge](https://i.imgur.com/aPmi4NS.gif)
+
+### Download de música
+
+Cola o link de uma faixa, álbum ou playlist. Escolhes exatamente que faixas queres, e cada uma
+tem a sua própria barra de progresso.
+
+![Download de música no MediaForge](https://i.imgur.com/kQ6KC7r.gif)
+
+### Download de vídeo
+
+Deteção automática com miniatura, título e duração. Resolução até 4K, escolha de codec,
+legendas, ou apenas um excerto.
+
+![Download de vídeo no MediaForge](https://i.imgur.com/dF5M9Ns.gif)
+
+---
+
 ## Arranque rápido
 
 ```bash
