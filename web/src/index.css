@@ -1,0 +1,424 @@
+@import 'tailwindcss';
+
+/* ───────────────────────────────────────────────────────────────
+   MediaForge — "oficina": carvão quase preto com um toque verde,
+   linhas finas, e um único acento de lima ácida.
+   Escuro por omissão, claro por opção.
+   ─────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme='dark'] {
+  --mf-canvas: #0a0b09;
+  --mf-surface: #101210;
+  --mf-raised: #171a16;
+  --mf-line: rgba(232, 234, 228, 0.08);
+  --mf-line-strong: rgba(232, 234, 228, 0.17);
+  --mf-ink: #e9ebe3;
+  --mf-muted: #8b9184;
+  --mf-faint: #5c6157;
+  --mf-accent: #c7f53f;
+  --mf-accent-hot: #dcff6b;
+  --mf-accent-soft: rgba(199, 245, 63, 0.14);
+  /* O acento é claro: o texto por cima tem de ser escuro. */
+  --mf-accent-ink: #0c0f06;
+  --mf-cyan: #56e0ff;
+  --mf-cyan-soft: rgba(86, 224, 255, 0.14);
+  --mf-danger: #ff6f57;
+  --mf-danger-soft: rgba(255, 111, 87, 0.14);
+  --mf-grid: rgba(232, 234, 228, 0.028);
+  --mf-shadow: 0 1px 0 rgba(255, 255, 255, 0.035) inset, 0 24px 60px -32px rgba(0, 0, 0, 0.95);
+  --mf-glow: 0 0 0 1px rgba(199, 245, 63, 0.35), 0 18px 60px -18px rgba(199, 245, 63, 0.4);
+}
+
+[data-theme='light'] {
+  --mf-canvas: #f2f1ea;
+  --mf-surface: #ffffff;
+  --mf-raised: #fbfaf5;
+  --mf-line: rgba(16, 18, 14, 0.1);
+  --mf-line-strong: rgba(16, 18, 14, 0.19);
+  --mf-ink: #14170f;
+  --mf-muted: #5b6153;
+  --mf-faint: #8a8f81;
+  --mf-accent: #a8d81b;
+  --mf-accent-hot: #bde83a;
+  --mf-accent-soft: rgba(140, 184, 10, 0.15);
+  --mf-accent-ink: #101403;
+  --mf-cyan: #0d8fb3;
+  --mf-cyan-soft: rgba(13, 143, 179, 0.12);
+  --mf-danger: #d43c1f;
+  --mf-danger-soft: rgba(212, 60, 31, 0.12);
+  --mf-grid: rgba(16, 18, 14, 0.04);
+  --mf-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 16px 40px -28px rgba(20, 23, 15, 0.5);
+  --mf-glow: 0 0 0 1px rgba(140, 184, 10, 0.4), 0 16px 44px -18px rgba(140, 184, 10, 0.35);
+}
+
+@theme inline {
+  --font-display: 'Bricolage Grotesque', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code', monospace;
+
+  --color-canvas: var(--mf-canvas);
+  --color-surface: var(--mf-surface);
+  --color-raised: var(--mf-raised);
+  --color-line: var(--mf-line);
+  --color-line-strong: var(--mf-line-strong);
+  --color-ink: var(--mf-ink);
+  --color-muted: var(--mf-muted);
+  --color-faint: var(--mf-faint);
+  --color-accent: var(--mf-accent);
+  --color-accent-hot: var(--mf-accent-hot);
+  --color-accent-soft: var(--mf-accent-soft);
+  --color-accent-ink: var(--mf-accent-ink);
+  --color-cyan: var(--mf-cyan);
+  --color-cyan-soft: var(--mf-cyan-soft);
+  --color-danger: var(--mf-danger);
+  --color-danger-soft: var(--mf-danger-soft);
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+}
+
+@layer base {
+  * {
+    border-color: var(--mf-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--mf-canvas);
+    color: var(--mf-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100dvh;
+  }
+
+  /* Malha fina + halo de brasa no topo: profundidade sem pesar. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--mf-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--mf-grid) 1px, transparent 1px);
+    background-size: 52px 52px;
+    mask-image: radial-gradient(ellipse 120% 70% at 50% 0%, #000 15%, transparent 75%);
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 60vh;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 70% 100% at 50% 0%, var(--mf-accent-soft), transparent 65%);
+    opacity: 0.75;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.03;
+  }
+
+  ::selection {
+    background: var(--mf-accent);
+    color: var(--mf-accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--mf-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Barras de scroll discretas, a condizer com a oficina. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mf-line-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--mf-line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+@layer components {
+  .mf-card {
+    background: var(--mf-surface);
+    border: 1px solid var(--mf-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--mf-shadow);
+  }
+
+  .mf-inset {
+    background: var(--mf-raised);
+    border: 1px solid var(--mf-line);
+    border-radius: 12px;
+  }
+
+  .mf-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mf-faint);
+  }
+
+  .mf-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+  }
+
+  /* Faixa diagonal de "em processamento" */
+  .mf-hazard {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--mf-accent) 0 6px,
+      transparent 6px 12px
+    );
+  }
+
+  .mf-field {
+    background: var(--mf-raised);
+    border: 1px solid var(--mf-line);
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    width: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .mf-field::placeholder {
+    color: var(--mf-faint);
+  }
+  .mf-field:hover {
+    border-color: var(--mf-line-strong);
+  }
+  .mf-field:focus {
+    outline: none;
+    border-color: var(--mf-accent);
+    box-shadow: 0 0 0 3px var(--mf-accent-soft);
+  }
+
+  /* Slider: os browsers não herdam o tema nos controlos nativos. */
+  .mf-range {
+    appearance: none;
+    width: 100%;
+    height: 22px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .mf-range::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--mf-line-strong);
+  }
+  .mf-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin-top: -6px;
+    border-radius: 999px;
+    background: var(--mf-accent);
+    border: 2px solid var(--mf-canvas);
+    box-shadow: 0 0 0 1px var(--mf-accent);
+    transition: transform 0.12s ease;
+  }
+  .mf-range:hover::-webkit-slider-thumb {
+    transform: scale(1.12);
+  }
+  .mf-range::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--mf-line-strong);
+  }
+  .mf-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--mf-accent);
+    border: 2px solid var(--mf-canvas);
+    box-shadow: 0 0 0 1px var(--mf-accent);
+  }
+  .mf-range:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--mf-accent);
+    outline-offset: 2px;
+  }
+
+  .mf-select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--mf-muted) 50%),
+      linear-gradient(135deg, var(--mf-muted) 50%, transparent 50%);
+    background-position: calc(100% - 17px) calc(50% + 1px), calc(100% - 12px) calc(50% + 1px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2rem;
+    cursor: pointer;
+  }
+  .mf-select option {
+    background: var(--mf-surface);
+    color: var(--mf-ink);
+  }
+}
+
+@layer utilities {
+  .mf-stack > * {
+    animation: mf-rise 0.55s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+  }
+  .mf-stack > *:nth-child(1) { animation-delay: 0.02s; }
+  .mf-stack > *:nth-child(2) { animation-delay: 0.08s; }
+  .mf-stack > *:nth-child(3) { animation-delay: 0.14s; }
+  .mf-stack > *:nth-child(4) { animation-delay: 0.2s; }
+  .mf-stack > *:nth-child(5) { animation-delay: 0.26s; }
+  .mf-stack > *:nth-child(6) { animation-delay: 0.32s; }
+  .mf-stack > *:nth-child(n + 7) { animation-delay: 0.38s; }
+
+  .mf-enter {
+    animation: mf-rise 0.4s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+  }
+
+  .mf-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--mf-accent) 45%, transparent) 45%,
+      transparent 90%
+    );
+    background-size: 220% 100%;
+    animation: mf-sweep 1.5s linear infinite;
+  }
+
+  .mf-pulse-dot {
+    animation: mf-pulse 1.4s ease-in-out infinite;
+  }
+
+  .mf-marquee-mask {
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+}
+
+@keyframes mf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mf-sweep {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+
+@keyframes mf-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.82);
+  }
+}
+
+@keyframes mf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulsação de opacidade: alternativa não-vestibular para quem pede menos movimento. */
+@keyframes mf-fade-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.mf-spin {
+  animation: mf-spin 0.9s linear infinite;
+}
+
+/* Faixa de "em processamento" no topo do cartão de trabalho. */
+.mf-hazard-run {
+  background-size: 200% 100%;
+  animation: mf-sweep 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /*
+   * ...exceto os indicadores de estado. «Menos movimento» quer dizer sem
+   * animação decorativa, não sem feedback: um spinner parado faz a aplicação
+   * parecer bloqueada. Estes continuam vivos, mas trocam rotação e deslize
+   * por pulsação de opacidade, que não desencadeia desconforto vestibular.
+   */
+  .mf-spin,
+  .mf-pulse-dot,
+  .mf-shimmer,
+  .mf-hazard-run {
+    animation: mf-fade-pulse 1.3s ease-in-out infinite !important;
+    animation-duration: 1.3s !important;
+    animation-iteration-count: infinite !important;
+  }
+
+  /* A barra indeterminada perde o gradiente em movimento: fica preenchida. */
+  .mf-shimmer {
+    background: var(--mf-accent) !important;
+  }
+
+  /* O ponto de estado não deve encolher, só esbater. */
+  .mf-pulse-dot {
+    transform: none !important;
+  }
+
+  /* As barras de progresso determinadas mantêm a transição: é informação. */
+  .mf-progress-fill {
+    transition-duration: 300ms !important;
+  }
+}
